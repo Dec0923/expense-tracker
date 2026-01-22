@@ -9,52 +9,36 @@
         .container { max-width: 500px; margin: auto; }
         .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
         .total-amount { font-size: 2rem; color: #007bff; font-weight: bold; }
-        input, select, button { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        input, select, button { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 1rem; }
         button { background: #007bff; color: white; border: none; cursor: pointer; font-weight: bold; }
-        .item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 10px 0; }
-        .history-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dotted #ccc; font-size: 0.9rem; color: #666; }
+        .item { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 10px 0; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="card">
-            <p style="margin:0; color:#666;">現在の合計支出</p>
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <div class="total-amount">¥ [[${total}]]</div>
-                <form action="/save-total" method="post" style="margin:0;">
-                    <input type="hidden" name="total" th:value="${total}">
-                    <button type="submit" style="width:auto; background:#28a745; padding:8px 15px;">合計を記録</button>
-                </form>
-            </div>
+            <p style="margin:0; color:#666;">今月の合計支出</p>
+            <div class="total-amount">¥ [[${total}]]</div>
         </div>
 
         <div class="card">
             <form action="/add" method="post">
                 <input type="text" name="title" placeholder="何に使った？" required>
                 <input type="number" name="amount" placeholder="金額" required>
+                <select name="category">
+                    <option value="食費">食費</option>
+                    <option value="生活費">生活費</option>
+                    <option value="娯楽">娯楽</option>
+                </select>
                 <button type="submit">記録する</button>
             </form>
         </div>
 
         <div class="card">
-            <h3>今回の支出明細</h3>
+            <h3>履歴</h3>
             <div th:each="item : ${list}" class="item">
-                <div>
-                    <span th:text="${item.title}">タイトル</span>
-                    <span style="font-weight:bold; margin-left:10px;">¥[[${item.amount}]]</span>
-                </div>
-                <form action="/delete" method="post" style="margin:0;">
-                    <input type="hidden" name="id" th:value="${item.id}">
-                    <button type="submit" style="background:none; color:#dc3545; border:none; width:auto; padding:0; cursor:pointer; font-size:0.8rem;">削除</button>
-                </form>
-            </div>
-        </div>
-
-        <div class="card" th:if="${!history.isEmpty()}">
-            <h3>過去の合計記録</h3>
-            <div th:each="h : ${history}" class="history-item">
-                <span th:text="${#dates.format(h.recorded_at, 'yyyy/MM/dd HH:mm')}">日時</span>
-                <span style="font-weight:bold;">¥ [[${h.recorded_total}]]</span>
+                <span>[[${item.title}]] <small style="color:#999;">([[${item.category}]])</small></span>
+                <span style="font-weight:bold;">¥[[${item.amount}]]</span>
             </div>
         </div>
     </div>
