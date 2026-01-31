@@ -46,7 +46,6 @@ UIデザインの工夫:
 
 カテゴリごとの割合表示
 
-ログイン機能の実装によるマルチユーザー対応
 
 
 https://github.com/user-attachments/assets/3404212b-f5be-4b01-afb5-436c8f3486df
