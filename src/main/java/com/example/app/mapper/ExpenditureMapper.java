@@ -1,6 +1,7 @@
 package com.example.app.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -25,4 +26,10 @@ public interface ExpenditureMapper {
     
     @Select("SELECT * FROM total_history ORDER BY recorded_at DESC")
     List<java.util.Map<String, Object>> findTotalHistory();
+    
+    @Delete("DELETE FROM total_history")
+    void deleteAllHistory();
+    
+    @Select("SELECT DATE(created_at) as date, SUM(amount) as total FROM expenditures GROUP BY DATE(created_at)")
+    List<Map<String, Object>> findDailyTotals();
 }
