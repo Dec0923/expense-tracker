@@ -19,4 +19,10 @@ public interface ExpenditureMapper {
 
     @Delete("DELETE FROM expenditures WHERE id = #{id}")
     void delete(Long id);
+    
+    @Insert("INSERT INTO total_history(recorded_total) VALUES(#{total})")
+    void saveTotal(int total);
+    
+    @Select("SELECT * FROM total_history ORDER BY recorded_at DESC")
+    List<java.util.Map<String, Object>> findTotalHistory();
 }
