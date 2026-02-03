@@ -15,11 +15,6 @@
         }
         .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 20px; }
         .total-amount { font-size: 2rem; color: #007bff; font-weight: bold; }
-<<<<<<< HEAD
-        input, select, button { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 1rem; }
-        button { background: #007bff; color: white; border: none; cursor: pointer; font-weight: bold; }
-        .item { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 10px 0; }
-=======
         input, button { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
         button { background: #007bff; color: white; border: none; cursor: pointer; font-weight: bold; transition: 0.3s; }
         button:hover { opacity: 0.8; }
@@ -27,36 +22,10 @@
         #calendar { background: white; padding: 15px; border-radius: 10px; min-height: 650px; }
         .history-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dotted #ccc; font-size: 0.9rem; }
         @media (max-width: 1000px) { .container { grid-template-columns: 1fr; } }
->>>>>>> branch 'main' of https://github.com/Dec0923/expense-tracker.git
     </style>
 </head>
 <body>
     <div class="container">
-<<<<<<< HEAD
-        <div class="card">
-            <p style="margin:0; color:#666;">今月の合計支出</p>
-            <div class="total-amount">¥ [[${total}]]</div>
-        </div>
-
-        <div class="card">
-            <form action="/add" method="post">
-                <input type="text" name="title" placeholder="何に使った？" required>
-                <input type="number" name="amount" placeholder="金額" required>
-                <select name="category">
-                    <option value="食費">食費</option>
-                    <option value="生活費">生活費</option>
-                    <option value="娯楽">娯楽</option>
-                </select>
-                <button type="submit">記録する</button>
-            </form>
-        </div>
-
-        <div class="card">
-            <h3>履歴</h3>
-            <div th:each="item : ${list}" class="item">
-                <span>[[${item.title}]] <small style="color:#999;">([[${item.category}]])</small></span>
-                <span style="font-weight:bold;">¥[[${item.amount}]]</span>
-=======
         <div class="side-panel">
             <div class="card">
                 <p style="margin:0; color:#666; font-size: 0.9rem;">現在の合計支出</p>
@@ -109,7 +78,6 @@
                     <span th:text="${h.recorded_at}">日時</span>
                     <span style="font-weight:bold;">¥ [[${h.recorded_total}]]</span>
                 </div>
->>>>>>> branch 'main' of https://github.com/Dec0923/expense-tracker.git
             </div>
         </div>
     </div>
