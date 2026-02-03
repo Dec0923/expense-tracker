@@ -17,6 +17,9 @@
 履歴管理: 
 過去に記録した合計額の履歴表示および、不要になった記録の削除
 
+カレンダー機能:
+いつ支出があったかの表示
+
 3. 使用技術
 
 (Tech Stack)Backend: Java 17 / Spring Boot 3.x
@@ -49,5 +52,8 @@ UIデザインの工夫:
 
 
 
-https://github.com/user-attachments/assets/3404212b-f5be-4b01-afb5-436c8f3486df
+
+
+https://github.com/user-attachments/assets/f838f41d-a5db-400f-88ac-61354c18c00b
+
 
