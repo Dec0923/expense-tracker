@@ -43,6 +43,7 @@ public class TrackerController {
             return event;
         }).toList();
     }
+    
     @PostMapping("/add")
     public String add(Expenditure expenditure) {
         mapper.insert(expenditure);
@@ -58,6 +59,12 @@ public class TrackerController {
     @PostMapping("/save-total")
     public String saveTotal(@RequestParam int total) {
         mapper.saveTotal(total);
+        return "redirect:/expenditures";
+    }
+    
+    @PostMapping("/delete-history")
+    public String deleteHistory() {
+        mapper.deleteAllHistory();
         return "redirect:/expenditures";
     }
 }
