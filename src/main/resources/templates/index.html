@@ -2,20 +2,37 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>支出トラッカー</title>
+    <title>支出ダッシュボード</title>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
     <style>
-        body { font-family: sans-serif; background: #f0f2f5; margin: 0; padding: 20px; }
-        .container { max-width: 500px; margin: auto; }
-        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 20px; color: #333; }
+        .container { 
+            display: grid; 
+            grid-template-columns: 420px 1fr; 
+            gap: 25px; 
+            max-width: 1400px; 
+            margin: auto; 
+        }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 20px; }
         .total-amount { font-size: 2rem; color: #007bff; font-weight: bold; }
+<<<<<<< HEAD
         input, select, button { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 1rem; }
         button { background: #007bff; color: white; border: none; cursor: pointer; font-weight: bold; }
         .item { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 10px 0; }
+=======
+        input, button { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        button { background: #007bff; color: white; border: none; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        button:hover { opacity: 0.8; }
+        .item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 10px 0; }
+        #calendar { background: white; padding: 15px; border-radius: 10px; min-height: 650px; }
+        .history-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dotted #ccc; font-size: 0.9rem; }
+        @media (max-width: 1000px) { .container { grid-template-columns: 1fr; } }
+>>>>>>> branch 'main' of https://github.com/Dec0923/expense-tracker.git
     </style>
 </head>
 <body>
     <div class="container">
+<<<<<<< HEAD
         <div class="card">
             <p style="margin:0; color:#666;">今月の合計支出</p>
             <div class="total-amount">¥ [[${total}]]</div>
@@ -39,8 +56,81 @@
             <div th:each="item : ${list}" class="item">
                 <span>[[${item.title}]] <small style="color:#999;">([[${item.category}]])</small></span>
                 <span style="font-weight:bold;">¥[[${item.amount}]]</span>
+=======
+        <div class="side-panel">
+            <div class="card">
+                <p style="margin:0; color:#666; font-size: 0.9rem;">現在の合計支出</p>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div class="total-amount">¥ [[${total}]]</div>
+                    <form action="/save-total" method="post" style="margin:0;">
+                        <input type="hidden" name="total" th:value="${total}">
+                        <button type="submit" style="width:auto; background:#28a745; padding:8px 15px;">記録</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>新規登録</h3>
+                <form action="/add" method="post">
+                    <input type="text" name="title" placeholder="品目（例：アイス）" required>
+                    <input type="number" name="amount" placeholder="金額" required>
+                    <button type="submit">リストに追加</button>
+                </form>
+            </div>
+
+            <div class="card" style="max-height: 450px; overflow-y: auto;">
+                <h3>今回の支出明細</h3>
+                <div th:each="item : ${list}" class="item">
+                    <div>
+                        <span th:text="${item.title}" style="font-weight: 500;"></span>
+                        <span style="margin-left:10px; color:#007bff; font-weight:bold;">¥[[${item.amount}]]</span>
+                    </div>
+                    <form action="/delete" method="post" style="margin:0;">
+                        <input type="hidden" name="id" th:value="${item.id}">
+                        <button type="submit" style="background:none; color:#dc3545; width:auto; padding:0; font-size: 0.8rem;">削除</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-panel">
+            <div class="card">
+                <div id="calendar"></div>
+            </div>
+            
+            <div class="card" th:if="${!history.isEmpty()}">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                    <h3 style="margin:0;">過去の合計記録</h3>
+                    <form action="/delete-history" method="post" onsubmit="return confirm('すべての履歴を削除しますか？');">
+                        <button type="submit" style="background:#dc3545; width:auto; padding:6px 12px; font-size:0.8rem;">履歴をクリア</button>
+                    </form>
+                </div>
+                <div th:each="h : ${history}" class="history-row">
+                    <span th:text="${h.recorded_at}">日時</span>
+                    <span style="font-weight:bold;">¥ [[${h.recorded_total}]]</span>
+                </div>
+>>>>>>> branch 'main' of https://github.com/Dec0923/expense-tracker.git
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'ja',
+                events: '/api/calendar-data',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,dayGridWeek'
+                },
+                eventDisplay: 'block',
+                eventColor: '#28a745'
+            });
+            calendar.render();
+        });
+    </script>
 </body>
 </html>
